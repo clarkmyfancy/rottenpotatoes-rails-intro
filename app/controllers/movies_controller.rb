@@ -12,6 +12,15 @@ class MoviesController < ApplicationController
 
   def index
     @movies = Movie.all
+    @sortBy = params[:sort]
+
+    if @sortBy == 'title'
+      @movies = @movies.sort_by { |m| m.title }
+      @title = 'hilite'
+    elsif @sortBy == 'releaseDate'
+      @movies = @movies.sort_by { |m| m.release_date }
+      @releaseDate = 'hilite'
+    end
   end
 
   def new
@@ -41,5 +50,12 @@ class MoviesController < ApplicationController
     flash[:notice] = "Movie '#{@movie.title}' deleted."
     redirect_to movies_path
   end
+
+  # def sortMovies
+  #   # @movie = Movie.find(params[:sortBy])
+  #   @movies = Movie.all
+  #   @movies = @movies.sort_by { |m| m.title }
+  #   # sort_by { |m| m.title}
+  # end
 
 end
