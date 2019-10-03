@@ -14,20 +14,23 @@ class MoviesController < ApplicationController
     @all_ratings = Movie.get_possible_ratings
 
     @movies = Movie.all
-    
-    @sortBy = params[:sort]
-    if @sortBy == 'title'
-      @movies = @movies.sort_by { |m| m.title }
-      @title = 'hilite'
-    elsif @sortBy == 'releaseDate'
-      @movies = @movies.sort_by { |m| m.release_date }
-      @releaseDate = 'hilite'
-    end
+
     @selected = @all_ratings
     @checked_ratings_hash = params[:ratings]
     if @checked_ratings_hash
       @selected = @checked_ratings_hash.keys
       @movies = Movie.with_ratings(@selected)
+    end
+
+    @sortBy = params[:sort]
+    if @sortBy == 'title'
+      @movies = @movies.sort_by { |m| m.title }
+      @title = 'hilite'
+      @addition = '/?sort=title'
+    elsif @sortBy == 'releaseDate'
+      @movies = @movies.sort_by { |m| m.release_date }
+      @releaseDate = 'hilite'
+      @addition = '/?sort=releaseDate'
     end
   end
 
